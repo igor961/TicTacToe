@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         val dialog = AlertDialog.Builder(this)
         dialog.setTitle("Choose your weapon")
         dialog.setSingleChoiceItems(vars, -1) { d, i ->
-            startGame(if (i==0) true else false)
+            thread { startGame(if (i == 0) true else false) }
             d.dismiss()
         }
         dialog.create().show()
