@@ -1,9 +1,9 @@
-package com.me.tictactoe
+package com.me.tictactoe.controller.mapper
 
-import com.me.tictactoe.domain.Piece
-import com.me.tictactoe.domain.Table
+import com.me.tictactoe.model.Piece
+import com.me.tictactoe.model.Table
 
-class GameFactory(private val usersChoice: Piece, private val table: Table) {
+class GameFactory(private val table: Table) {
     var lastPiece = Piece.N
         private set
 

@@ -1,4 +1,4 @@
-package com.me.tictactoe.domain
+package com.me.tictactoe.model
 
 class Table {
     private var freeCells = 9
