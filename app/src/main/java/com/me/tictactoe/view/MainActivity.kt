@@ -6,11 +6,10 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.isVisible
 import com.me.tictactoe.controller.Game
 import kotlin.concurrent.thread
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), TableMVCView {
     private lateinit var layout: TableLayout
     private var cells = ArrayList<Button>()
     private val enabled = Array(9) { true }
@@ -29,14 +28,16 @@ class MainActivity : AppCompatActivity() {
         dialog.setCancelable(false)
         dialog.setTitle("Choose your weapon")
         dialog.setSingleChoiceItems(vars, -1) { d, i ->
-            thread { startGame(if (i == 0) true else false) }
+            thread {
+                startGame(i == 0)
+            }
             d.dismiss()
         }
         dialog.create().show()
     }
 
     private fun startGame(x: Boolean) {
-        game = Game(true, x, ::setPiece, ::showWinner)
+        game = Game(true, x, this)
     }
 
     fun setPiece(pos: Int, cont: String) {
@@ -74,18 +75,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun disableCells() {
+        runOnUiThread {
+            this.cells.forEachIndexed { i, c ->
+                this.enabled[i] = c.isEnabled
+                c.isEnabled = false
+            }
+        }
+    }
+
     fun cellOnClickListener(v: View) {
         val pos = Integer.parseInt(v.tag.toString())
-        this.cells.forEachIndexed { i, c ->
-            this.enabled[i] = c.isEnabled
-            c.isEnabled = false
-        }
+        disableCells()
         thread {
             game.loop(pos)
         }
     }
 
-    private fun showWinner(n: String) {
+    override fun blockInput() = disableCells()
+
+    override fun updateView(res: Int, n: String) = setPiece(res, n)
+
+    override fun showWinner(n: String) {
         runOnUiThread {
             val dBuilder = AlertDialog.Builder(this)
             val msg = if (n == "N") "This is a draw" else "$n is winner!"

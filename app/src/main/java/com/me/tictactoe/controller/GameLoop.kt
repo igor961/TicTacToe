@@ -1,22 +1,26 @@
 package com.me.tictactoe.controller
 
 import com.me.tictactoe.controller.mapper.GameFactory
-import com.me.tictactoe.model.Piece
 import com.me.tictactoe.model.Table
+import com.me.tictactoe.view.TableMVCView
 
 
 class Game(
     private val playWithComputer: Boolean,
-    private val playX: Boolean = true,
-    val updateView: (Int, String) -> Unit,
-    val showDialog: (String) -> Unit
+    playX: Boolean = true,
+    private val view: TableMVCView
+    /*private val updateView: (Int, String) -> Unit,
+    private val showWinner: (String) -> Unit,
+    private val blockInput: () -> Unit*/
 ) {
     private val t = Table()
     private val gameFactory = GameFactory(t)
 
     init {
-        if (!playX)
+        if (!playX) {
+            view.blockInput()
             this.move({ gameFactory.doAutoMove() }, -1)
+        }
     }
 
     fun loop(i: Int) {
@@ -27,10 +31,10 @@ class Game(
 
     fun move(moveFun: (Int) -> Int, pos: Int): Boolean {
         val res = moveFun(pos)
-        if (res >= 0) updateView(res, t.winner.n)
+        if (res >= 0) view.updateView(res, t.winner.n)
         val cont = t.validate()
         if (!cont) {
-            showDialog(t.winner.n)
+            view.showWinner(t.winner.n)
             return true
         }
         return false
