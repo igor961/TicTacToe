@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity(), TableMVCView {
     private lateinit var layout: TableLayout
     private var cells = ArrayList<Button>()
     private val enabled = Array(9) { true }
-    private lateinit var game: Game
+    override lateinit var game: Game
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +34,6 @@ class MainActivity : AppCompatActivity(), TableMVCView {
             d.dismiss()
         }
         dialog.create().show()
-    }
-
-    private fun startGame(x: Boolean) {
-        game = Game(true, x, this)
     }
 
     fun setPiece(pos: Int, cont: String) {
