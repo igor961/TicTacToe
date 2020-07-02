@@ -9,9 +9,6 @@ class Game(
     private val playWithComputer: Boolean,
     playX: Boolean = true,
     private val view: TableMVCView
-    /*private val updateView: (Int, String) -> Unit,
-    private val showWinner: (String) -> Unit,
-    private val blockInput: () -> Unit*/
 ) {
     private val t = Table()
     private val gameFactory = GameFactory(t)
@@ -25,7 +22,7 @@ class Game(
 
     fun loop(i: Int) {
         if (playWithComputer) {
-            if (!move(gameFactory::doMove, i)) move({ gameFactory.doAutoMove() }, -1)
+            if (!move(gameFactory::doMove, i)) move({ gameFactory.doRandFirstMove() }, -1)
         } else move(gameFactory::doMove, i)
     }
 
