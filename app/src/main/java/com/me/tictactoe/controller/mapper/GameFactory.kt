@@ -2,6 +2,7 @@ package com.me.tictactoe.controller.mapper
 
 import com.me.tictactoe.model.Piece
 import com.me.tictactoe.model.Table
+import kotlin.random.Random
 
 class GameFactory(private val table: Table) {
     var lastPiece = Piece.N
@@ -15,6 +16,8 @@ class GameFactory(private val table: Table) {
         }
         return -1
     }
+
+    fun doRandFirstMove() = if (lastPiece == Piece.N) doMove(Random.nextInt(0, 8)) else doAutoMove()
 
     fun doAutoMove() = doMove(minimax(table, Piece.opposite(lastPiece)).first)
 

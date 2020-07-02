@@ -14,7 +14,7 @@ class Table {
         this.table = table
     }
 
-    fun getTable() = table.clone()
+    fun getTable() = table.copyOf()
 
     fun clone(): Table {
         return Table(getTable())
