@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), TableMVCView {
         dialog.create().show()
     }
 
-    fun setPiece(pos: Int, cont: String) {
+    private fun setPiece(pos: Int, cont: String) {
         runOnUiThread {
             cells[pos].text = cont
             this.enabled[pos] = false
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), TableMVCView {
         }
     }
 
-    fun init() {
+    private fun init() {
         layout = TableLayout(this)
         layout.setPadding(10, 10, 10, 10)
         val param1 = TableLayout.LayoutParams()
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), TableMVCView {
         }
     }
 
-    fun cellOnClickListener(v: View) {
+    private fun cellOnClickListener(v: View) {
         val pos = Integer.parseInt(v.tag.toString())
         disableCells()
         thread {
