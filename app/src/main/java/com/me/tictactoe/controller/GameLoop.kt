@@ -16,13 +16,13 @@ class Game(
     init {
         if (!playX) {
             view.blockInput()
-            this.move({ gameFactory.doAutoMove() }, -1)
+            this.move({ gameFactory.doRandFirstMove() }, -1)
         }
     }
 
     fun loop(i: Int) {
         if (playWithComputer) {
-            if (!move(gameFactory::doMove, i)) move({ gameFactory.doRandFirstMove() }, -1)
+            if (!move(gameFactory::doMove, i)) move({ gameFactory.doAutoMove() }, -1)
         } else move(gameFactory::doMove, i)
     }
 
